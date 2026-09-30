@@ -39,3 +39,16 @@ if command == 'add':
         note = sys.argv[4]
     add_expenses(amount, category, note)
     print('Added:', amount, category, note)
+
+if command =='list':
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT id, amount, category, note FROM expenses ORDER BY id"
+    ).fetchall()
+    conn.close()
+    if len(rows) == 0:
+        print("No expenses yet.")
+    else:
+        for expense_id, amount, category, note in rows:
+            print(f'{expense_id}. {amount:.2f}  {category}  {note}')
+    
